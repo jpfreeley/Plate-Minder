@@ -3,7 +3,7 @@ services:
   plate-minder:
     container_name: plate-minder
     restart: unless-stopped
-    image: d51b95a61b2c
+    image: 436013ab4681
     platform: linux/amd64
     build:
       context: .

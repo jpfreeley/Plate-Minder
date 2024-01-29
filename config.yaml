@@ -1,7 +1,7 @@
 sources:
   # Have an RTSP stream?
   - type: rtsp
-    name: Northbound
+    name: Kessel
     url: 'rtsp://admin:E3n86OVC92Mf@192.168.1.108:554/'
     # How often an image should be captured.
     # Increments are in seconds. Fractional values (i.e. "0.5") can be used for
@@ -30,19 +30,19 @@ sources:
 # Globally applied filters
 # Filter jpeg frames. Currently 'motion' and 'mask' filters are available.
 # Filters are processed in the order they are defined
-filters:
+# filters:
   # Masks out a portion of the frame. Note that any pixels within the mask
   # cannot be used for detection.
-  - type: mask
-    # Optional. Outputs an image to the './data' path
-    debug: true
-    shapes:
-      # Shapes are a series of x/y coordinates
-      - 1267,0,1920,0,1920,100,1267,100 # Timestamp, top right
+  # - type: mask
+  #   # Optional. Outputs an image to the './data' path
+  #   debug: true
+  #   shapes:
+  #     # Shapes are a series of x/y coordinates
+  #     - 1267,0,1920,0,1920,100,1267,100 # Timestamp, top right
   # Crops the frame down to the largest area of motion detection
-  - type: motion
-    # Optional. Outputs an image to the './data' path
-    debug: true
+  # - type: motion
+  #   # Optional. Outputs an image to the './data' path
+  #   debug: true
   
 openALPR:
   # Path to ALPRToHTTP server
@@ -67,7 +67,7 @@ openALPR:
   # (e.g. md for Maryland, ca for California)
   # OpenALPR supports the following pattern codes based on the selected country
   # See: https://github.com/openalpr/openalpr/tree/master/runtime_data/postprocess
-  pattern: 'ca' # optional
+  # pattern: 'ca' # optional
 
 # Record detected license plate information
 recorders:
@@ -92,7 +92,7 @@ recorders:
     # Naming pattern of files to store.
     # Tokens ({{DATE}}, {{TIME}}, {{SOURCE}}, and {{PLATE}}) are replaced with
     # dynamic values.
-    pattern: './data/images/{{DATE}}/{{SOURCE}}/{{TIME}}_{{PLATE}}_{{CONF}}.jpeg'
+    pattern: './data/images/{{DATE}}/{{SOURCE}}/{{TIME}}_{{PLATE}}_{{CONFIDENCE}}.jpeg'
     # Files older than retainDays will be removed.
     retainDays: 30
 
@@ -103,3 +103,4 @@ restService:
   enable: true
   # Port # for the service to run on.
   port: 4000
+rotate: 13
