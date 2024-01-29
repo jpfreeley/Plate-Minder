@@ -1,2 +1,4 @@
 node_modules
 videos
+data/**
+.DS_Store

@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  plate-minder:
+    container_name: plate-minder
+    restart: unless-stopped
+    image: sclaflin/plate-minder:latest
+    ports:
+      - 4000:4000
+    volumes:
+      # Set's the docker container to the host container local time
+      - /etc/localtime:/etc/localtime:ro
+      - ./data:/app/data
+      - ./config.yaml:/app/config.yaml
+  open-alpr-http-wrapper:
+    container_name: open-alpr-http-wrapper
+    restart: unless-stopped
+    image: sclaflin/open-alpr-http-wrapper:latest
+  # This service is not required, but exists to help with configuration. Once 
+  # Plate-Minder has been configured, feel free to disable this service.
+  plate-minder-web:
+    container_name: plate-minder-web
+    image: sclaflin/plate-minder-web:latest
+    restart: unless-stopped
+    # The default configuration assumes docker is running on the same machine 
+    # you're viewing the web UI with. If you're accessing the service from a
+    # different computer, you should set the PLATE_MINDER_URL to whatever host 
+    # & port Plate-Minder's RESTful service is accessible from.
+    environment:
+      - PLATE_MINDER_URL=http://localhost:4000
+    ports:
+      - 8080:80

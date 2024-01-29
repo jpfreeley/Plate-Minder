@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 LABEL description="Connects an RTSP feed to OpenALPR and records captured data"
 LABEL maintainer "seanclaflin@protonmail.com"
@@ -19,17 +19,17 @@ RUN apt update \
 
 # Set up nodesource repo & install nodejs
 RUN KEYRING=/usr/share/keyrings/nodesource.gpg \
-    && VERSION=node_16.x \
+    && VERSION=node_18.x \
     && DISTRO="$(lsb_release -s -c)" \
     && wget --quiet -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee "$KEYRING" >/dev/null \
     && echo "deb [signed-by=$KEYRING] https://deb.nodesource.com/$VERSION $DISTRO main" | tee /etc/apt/sources.list.d/nodesource.list \
     && echo "deb-src [signed-by=$KEYRING] https://deb.nodesource.com/$VERSION $DISTRO main" | tee -a /etc/apt/sources.list.d/nodesource.list \
     && apt update \
-    && apt install -y nodejs \
+    && apt install -y nodejs npm \
     && rm -rf /var/lib/apt/lists/*
 
-# Download and install jellyfin-ffmpeg
-RUN wget -O /tmp/jellyfin-ffmpeg.deb https://repo.jellyfin.org/releases/server/debian/versions/jellyfin-ffmpeg/4.4.1-4/jellyfin-ffmpeg_4.4.1-4-bullseye_amd64.deb \
+# # Download and install jellyfin-ffmpeg
+RUN wget -O /tmp/jellyfin-ffmpeg.deb https://repo.jellyfin.org/releases/server/debian/versions/jellyfin-ffmpeg/6.0.1-1/jellyfin-ffmpeg6_6.0.1-1-bookworm_amd64.deb \
     && apt update \
     && apt install -f /tmp/jellyfin-ffmpeg.deb -y \
     && rm /tmp/jellyfin-ffmpeg.deb \
@@ -50,6 +50,9 @@ COPY --chown=app:app migrations /app/migrations
 
 WORKDIR /app
 
+# RUN npm install sharp
+
+RUN npm install
 RUN npm ci --production
 
 CMD ["/usr/bin/npm", "start"]
