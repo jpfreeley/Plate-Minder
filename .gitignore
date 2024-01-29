@@ -2,3 +2,4 @@ node_modules
 videos
 data/**
 .DS_Store
+.vscode/settings.json
