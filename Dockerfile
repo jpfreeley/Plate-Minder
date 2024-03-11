@@ -29,7 +29,7 @@ RUN KEYRING=/usr/share/keyrings/nodesource.gpg \
     && rm -rf /var/lib/apt/lists/*
 
 # # Download and install jellyfin-ffmpeg
-RUN wget -O /tmp/jellyfin-ffmpeg.deb https://repo.jellyfin.org/releases/server/debian/versions/jellyfin-ffmpeg/6.0.1-1/jellyfin-ffmpeg6_6.0.1-1-bookworm_amd64.deb \
+RUN wget -O /tmp/jellyfin-ffmpeg.deb https://repo.jellyfin.org/releases/server/debian/versions/jellyfin-ffmpeg/6.0.1-3/jellyfin-ffmpeg6_6.0.1-3-bookworm_amd64.deb \
     && apt update \
     && apt install -f /tmp/jellyfin-ffmpeg.deb -y \
     && rm /tmp/jellyfin-ffmpeg.deb \

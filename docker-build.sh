@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build --platform linux/amd64  .
+docker build -t plate-minder-jpf --platform linux/amd64  .
